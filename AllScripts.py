@@ -23,6 +23,8 @@ try:
     import random
     from requests.packages.urllib3.exceptions import InsecureRequestWarning
     import pdfplumber
+    import sys
+    from selenium.common.exceptions import NoSuchElementException
 except:
     print("library not found")
 start = time.time()
@@ -975,6 +977,7 @@ def Japan():
         print("browser not find any element")
         browser.close()
         responsecode_unsuccess('Japan', 'Responsecode', e)
+        pass
 
     # print(len(like))#len(like)
     for x in range(0, len(like)):
@@ -986,6 +989,7 @@ def Japan():
         except Exception as e:
             browser.close()
             responsecode_unsuccess('Japan', 'Responsecode', e)
+            pass
     # //*[@id="tb_keiho_2020"]/tbody/tr/td
     # print(list_year)
     lisstee = []
@@ -1018,6 +1022,7 @@ def Japan():
 
         browser.close()
         responsecode_unsuccess('Japan', 'Responsecode', e)
+        pass
     try:
         previousanch = browser.find_elements_by_xpath("//*[@id='submain']/div/div[2]/div[1]/a")
         previouslis = []
@@ -1050,16 +1055,14 @@ def Japan():
                 # print(hrefstr)
                 hreflis.append(hrefstr)
             browser2.close()
-    except Exception as e:
-        print("browser2 not find any element")
-        browser.close()
-        browser2.close()
-        responsecode_unsuccess('Japan', 'Responsecode', e)
+            browser2.quit()
+
+
 
     # browser.close()
     # //*[@id="submain"]/div/div[2]/div[1]/a
     # (hreflis)
-    try:
+
         vallist = []
         for j in hreflis:
             url = str(j)
@@ -1079,13 +1082,9 @@ def Japan():
                 vallist.append(textstr)
             # print(textstr)
             browser1.close()
-    except Exception as e:
-        print("Browser1 not found any element")
-        browser.close()
-        browser2.close()
-        browser1.close()
-        responsecode_unsuccess('Japan', 'Responsecode', e)
-    try:
+            browser1.quit()
+
+
 
         keylist = []
         for k in vallist:
@@ -1118,13 +1117,32 @@ def Japan():
             # print("Check the Data Validation Unsucessfull")
         print(res)
         browser.close()
+    except NameError:
+        pass
+        responsecode_unsuccess('Japan', 'Responsecode', 'NameError')
+        browser.close()
+        browser2.close()
+        browser1.close()
+        browser.close()
+    except NoSuchElementException:
+        pass
+        responsecode_unsuccess('Japan', 'Responsecode', 'No Element Error')
+        browser.close()
+        browser2.close()
+        browser1.close()
+        browser.close()
+
     except Exception as e:
+
         print("Expected Schema is not found")
         browser.close()
         browser2.close()
         browser1.close()
-        responsecode_unsuccess('Japan', 'Responsecode', e)
         browser.close()
+        responsecode_unsuccess('Japan', 'Responsecode', e)
+
+
+        pass
 def Norway():
     try:
         #start = time.time()
@@ -1144,6 +1162,7 @@ def Norway():
         print("broweser Not get any element ")
         responsecode_unsuccess('Norway','Browser Error',e)
         browser.close()
+        pass
     try:
 
         myDict = dict()
@@ -1213,7 +1232,9 @@ def Norway():
     except Exception as e:
         print("Expected Schema Is not Arranaged", e)
         datavalidation_Unsucess('Norway','Error Found',e)
+
         browser.close()
+        pass
 def NewZelanad():
     try:
         #start = time.time()
@@ -1681,7 +1702,7 @@ def Spain():
         print(res)
     except Exception as e:
         datavalidation_Unsucess('Spain','ErrorFound',e)
-
+        browser.close()
 def usa_iv():
     url = "https://msi.nga.mil/api/publications/download?type=view&key=16694640/SFH00000/DailyMemIV.txt"
     browser = webdriver.Chrome(ChromeDriverManager().install(),options=chrome_options)
@@ -2014,26 +2035,14 @@ def India():
         print(res)
     except Exception as e:
         datavalidation_Unsucess('India','ErrorFound',e)
-uk_country()
-argentina()
-Austrelia()
-Brazil()
-India()
-canadaXVII()
-canadaxviii()
-chilie()
-France()
+uk_country(), argentina(), Austrelia(), Brazil(), India(),canadaXVII(),canadaxviii(),chilie(),France(),Japan(),Norway(),NewZelanad(),Pakistan(),peru(),south_africa(),Spain(),usa_iv(),usa_xii()
+#func_list1=[Japan(),Norway(),NewZelanad(),Pakistan(),peru(),south_africa(),Spain(),usa_iv(),usa_xii()]
 
-Japan()
-Norway()
-NewZelanad()
-Pakistan()
-peru()
-south_africa()
-Spain()
-usa_iv()
-usa_xii()
-
+#for my_func in func_list:
+        #try:
+            #my_func()
+        #except:
+            #pass
 end = time.time()
 seconds=end-start
 f.close()
